@@ -15,7 +15,7 @@ class PlacesTest extends ApiTestCase
     {
         PlaceFactory::createMany(100);
 
-        $response = static::createClient()->request('GET', '/api/places');
+        static::createClient()->request('GET', '/api/places');
 
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
@@ -25,7 +25,7 @@ class PlacesTest extends ApiTestCase
     {
         $place = PlaceFactory::createOne();
 
-        $response = static::createClient()->request('GET', '/api/places/' . $place->getId());
+        static::createClient()->request('GET', '/api/places/' . $place->getId());
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([
@@ -36,7 +36,7 @@ class PlacesTest extends ApiTestCase
 
     public function testCreateEntity(): void
     {
-        $response = static::createClient()->request('POST', '/api/places', [
+        static::createClient()->request('POST', '/api/places', [
             'headers' => ['Content-Type' => 'application/ld+json'],
             'json' => [
                 'latitude' => 48.85341,
@@ -56,7 +56,7 @@ class PlacesTest extends ApiTestCase
         $place = PlaceFactory::createOne();
         $id = $place->getId();
 
-        $response = static::createClient()->request('DELETE', '/api/places/' . $place->getId());
+        static::createClient()->request('DELETE', '/api/places/' . $place->getId());
 
         $this->assertResponseStatusCodeSame(204);
 
