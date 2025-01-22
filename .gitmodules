@@ -1,0 +1,3 @@
+[submodule ".maker"]
+	path = .maker
+	url = git@gitlab.com:DWNaF/docker_symfony.git
