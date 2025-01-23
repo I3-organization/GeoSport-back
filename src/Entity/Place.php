@@ -29,7 +29,7 @@ class Place
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['place:read', 'rating:read', 'user:read'])]
+    #[Groups(['place:read', 'rating:read', 'user:read', 'review:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
