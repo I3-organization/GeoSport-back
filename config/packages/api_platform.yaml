@@ -7,3 +7,4 @@ api_platform:
       vary: [ 'Content-Type', 'Authorization', 'Origin' ]
   exception_to_status:
     App\Exception\InvalidParameterException: 400
+  enable_docs: true

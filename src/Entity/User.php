@@ -11,6 +11,8 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Repository\UserRepository;
 use App\State\UserPasswordHasher;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -33,10 +35,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    public function __construct()
+    {
+        $this->ratings = new ArrayCollection();
+    }
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'rating:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
@@ -76,6 +83,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     #[Groups(['user:read', 'user:create'])]
     private ?string $biography = null;
+
+    #[ORM\OneToMany(targetEntity: Rating::class, mappedBy: 'user')]
+    #[Groups(['user:read'])]
+    private Collection $ratings;
 
     public function getId(): ?int
     {
@@ -202,5 +213,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(?string $email): void
     {
         $this->email = $email;
+    }
+
+    public function getRatings(): Collection
+    {
+        return $this->ratings;
     }
 }
