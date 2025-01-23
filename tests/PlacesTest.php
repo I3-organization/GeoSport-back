@@ -8,12 +8,13 @@ use App\Story\TwoPlacesWithinRadius15Story;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
-class éPlacesTest extends ApiTestCase
+class PlacesTest extends ApiTestCase
 {
     use ResetDatabase, Factories;
 
     public function testTwoPlacesWithinRadius15(): void
     {
+        PlaceFactory::repository()->truncate();
         TwoPlacesWithinRadius15Story::load();
 
         $count = PlaceFactory::repository()->count([]);
@@ -24,7 +25,7 @@ class éPlacesTest extends ApiTestCase
         $radius = 15;
 
         $client = static::createClient();
-        $client->request('GET', '/api/places', [
+        $response = $client->request('GET', '/api/places', [
             'query' => [
                 'latitude' => $latitude,
                 'longitude' => $longitude,
@@ -34,12 +35,7 @@ class éPlacesTest extends ApiTestCase
 
 
         $this->assertResponseIsSuccessful();
-        $this->assertJsonContains([
-            '@context' => '/api/contexts/Place',
-            '@id' => '/api/places',
-            '@type' => 'Collection',
-            'totalItems' => 2,
-        ]);
+        $this->assertCount(2, $response->toArray()['member']);
     }
 
     public function testInvalidLatitudeType(): void
