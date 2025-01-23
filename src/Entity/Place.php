@@ -2,12 +2,15 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use App\Filter\RadiusFilter;
 use App\Repository\PlaceRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PlaceRepository::class)]
 #[ApiResource]
+#[ApiFilter(RadiusFilter::class, properties: ['latitude', 'longitude', 'radius'])]
 class Place
 {
     #[ORM\Id]
