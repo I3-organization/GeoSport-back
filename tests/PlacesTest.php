@@ -8,7 +8,7 @@ use App\Story\TwoPlacesWithinRadius15Story;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
 
-class PlacesTest extends ApiTestCase
+class éPlacesTest extends ApiTestCase
 {
     use ResetDatabase, Factories;
 
