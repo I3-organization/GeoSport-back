@@ -15,8 +15,7 @@ final class RadiusFilter extends AbstractFilter
         if (!isset($parameters['latitude']) || !isset($parameters['longitude']) || !isset($parameters['radius'])) {
             return false;
         }
-
-        if (!is_float($parameters['latitude']) || !is_float($parameters['longitude']) || !is_float($parameters['radius'])) {
+        if (!is_numeric($parameters['latitude']) || !is_numeric($parameters['longitude']) || !is_numeric($parameters['radius'])) {
             throw new InvalidParameterException(['latitude', 'longitude', 'radius']);
         }
 
@@ -35,7 +34,6 @@ final class RadiusFilter extends AbstractFilter
         if (!$this->areParametersValid($context['filters'])) {
             return;
         }
-
         $latitude = $context['filters']['latitude'];
         $longitude = $context['filters']['longitude'];
         $radius = $context['filters']['radius'];
