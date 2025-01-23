@@ -1,0 +1,42 @@
+name: Build
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  sonarqube:
+    name: SonarQube
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Build docker images
+        uses: docker/bake-action@v6
+        with:
+          pull: true
+          load: true
+          files: .maker/docker-compose.yml
+
+      - name: Start docker containers
+        run: docker compose -f .maker/docker-compose.yml up --wait --no-build
+
+      - name: Install dependencies
+        run: |
+          curl -sS https://getcomposer.org/installer | php
+          php composer.phar install --no-interaction
+
+      - name: Run PHPUnit tests
+        run: |
+          vendor/bin/phpunit --coverage-text
+
+      - name: SonarQubeScan
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
