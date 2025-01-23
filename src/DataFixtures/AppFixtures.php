@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Story\DefaultPlacesStory;
+use App\Story\DefaultRatingsStory;
 use App\Story\DefaultTagsStory;
 use App\Story\DefaultUsersStory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -16,5 +17,6 @@ class AppFixtures extends Fixture
         DefaultPlacesStory::load();
         DefaultTagsStory::load();
         DefaultUsersStory::load();
+        DefaultRatingsStory::load();
     }
 }
