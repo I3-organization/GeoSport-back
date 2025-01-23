@@ -56,6 +56,7 @@ class Place
      * @var Collection<int, TagLabel>
      */
     #[ORM\ManyToMany(targetEntity: TagLabel::class, inversedBy: 'places')]
+    #[Groups(['place:read'])]
     private Collection $tags;
 
 

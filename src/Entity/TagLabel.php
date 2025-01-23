@@ -30,11 +30,11 @@ class TagLabel
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['tag_label:read:collection', 'tag_label:read:item'])]
+    #[Groups(['tag_label:read:collection', 'tag_label:read:item', 'place:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['tag_label:read:collection', 'tag_label:read:item'])]
+    #[Groups(['tag_label:read:collection', 'tag_label:read:item', 'place:read'])]
     private ?string $name = null;
 
     /**
