@@ -1,4 +1,4 @@
-# Sprint planning séance du 24/01/2025 après-midi (9h - 12h)
+# Sprint planning séance du 24/01/2025 matin (9h - 12h)
 
 ## Objectifs :
 
