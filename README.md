@@ -19,3 +19,17 @@ Les critères auxquels le service doit répondre
 En critères optionnels
 * Fournir les horaires d'ouvertures/fermeture
 * Fournir un moyen de contact
+
+
+___
+
+## Docker
+
+Un docker est mis à disposition en tant que submodule, pour le récupérer avec le projet, pensez à lancer 
+
+`git submodule update --init`
+
+Il existe un Makefile avec plusieurs commandes utiles pour le développement, pour les voir, lancez un `make` sur la racine du projet.
+
+Par exemple, pour lancer tout l'environnement de dev sous docker, il suffit de lancer un `make up`
+
