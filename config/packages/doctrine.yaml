@@ -9,6 +9,12 @@ doctrine:
         profiling_collect_backtrace: '%kernel.debug%'
         use_savepoints: true
     orm:
+        dql:
+            numeric_functions:
+                acos: DoctrineExtensions\Query\Mysql\Acos
+                cos: DoctrineExtensions\Query\Mysql\Cos
+                radians: DoctrineExtensions\Query\Mysql\Radians
+                sin: DoctrineExtensions\Query\Mysql\Sin
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
         report_fields_where_declared: true

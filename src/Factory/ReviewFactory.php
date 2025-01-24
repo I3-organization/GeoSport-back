@@ -2,13 +2,13 @@
 
 namespace App\Factory;
 
-use App\Entity\Place;
+use App\Entity\Review;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 
 /**
- * @extends PersistentProxyObjectFactory<Place>
+ * @extends PersistentProxyObjectFactory<Review>
  */
-final class PlaceFactory extends PersistentProxyObjectFactory
+final class ReviewFactory extends PersistentProxyObjectFactory
 {
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
@@ -21,7 +21,7 @@ final class PlaceFactory extends PersistentProxyObjectFactory
 
     public static function class(): string
     {
-        return Place::class;
+        return Review::class;
     }
 
     /**
@@ -32,13 +32,10 @@ final class PlaceFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'latitude' => self::faker()->randomFloat(),
-            'longitude' => self::faker()->randomFloat(),
-            'name' => self::faker()->streetName(),
-            'address' => self::faker()->address(),
-            'email' => self::faker()->email(),
-            'phone' => self::faker()->phoneNumber(),
-            'image' => "https://picsum.photos/800/600",
+            'comment' => self::faker()->text(),
+            'title' => self::faker()->sentence(),
+            'user' => UserFactory::new(),
+            'place' => PlaceFactory::new(),
         ];
     }
 
@@ -48,7 +45,7 @@ final class PlaceFactory extends PersistentProxyObjectFactory
     protected function initialize(): static
     {
         return $this
-            // ->afterInstantiate(function(Place $place): void {})
+            // ->afterInstantiate(function(Review $review): void {})
         ;
     }
 }
