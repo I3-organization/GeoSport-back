@@ -25,7 +25,15 @@ final class RadiusFilter extends AbstractFilter
     /**
      * @throws InvalidParameterException
      */
-    protected function filterProperty(string $property, $value, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, ?Operation $operation = null, array $context = []): void
+    protected function filterProperty(
+        string                      $property,
+                                    $value,
+        QueryBuilder                $queryBuilder,
+        QueryNameGeneratorInterface $queryNameGenerator,
+        string                      $resourceClass,
+        ?Operation                  $operation = null,
+        array                       $context = []
+    ): void
     {
         if (!$this->isPropertyEnabled($property, $resourceClass) || !$this->isPropertyMapped($property, $resourceClass)) {
             return;
@@ -34,20 +42,31 @@ final class RadiusFilter extends AbstractFilter
         if (!$this->areParametersValid($context['filters'])) {
             return;
         }
+
         $latitude = $context['filters']['latitude'];
         $longitude = $context['filters']['longitude'];
         $radius = $context['filters']['radius'];
 
+        $rootAlias = $queryBuilder->getRootAliases()[0];
+        $distanceAlias = $queryNameGenerator->generateParameterName('distance');
+
+        $distanceExpression = '(6371 * acos(
+        cos(radians(:latitude)) * cos(radians(' . $rootAlias . '.latitude)) *
+        cos(radians(' . $rootAlias . '.longitude) - radians(:longitude)) +
+        sin(radians(:latitude)) * sin(radians(' . $rootAlias . '.latitude))
+    ))';
+
         $queryBuilder
-            ->andWhere('
-                (6371 * acos(
-                    cos(radians(:latitude)) * cos(radians(o.latitude)) * cos(radians(o.longitude) - radians(:longitude)) +
-                    sin(radians(:latitude)) * sin(radians(o.latitude))
-                )) <= :radius
-            ')
+            ->andWhere("$distanceExpression <= :radius")
             ->setParameter('latitude', $latitude)
             ->setParameter('longitude', $longitude)
             ->setParameter('radius', $radius);
+
+        if (!str_contains($queryBuilder->getDQL(), "$distanceExpression AS $distanceAlias")) {
+            $queryBuilder
+                ->addSelect("$distanceExpression AS HIDDEN $distanceAlias")
+                ->orderBy($distanceAlias, 'ASC');
+        }
     }
 
 
