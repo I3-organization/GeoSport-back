@@ -1,0 +1,12 @@
+Keep :
+Code Review (cf Retro precedente)
+
+Improve : 
+
+
+Start :
+Tests unitaires de composants Front
+Intégration continue front (build + lancements des tests unitaires)
+
+Stop :
+
