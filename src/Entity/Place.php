@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
@@ -35,6 +36,7 @@ class Place
 
     #[ORM\Column(length: 255)]
     #[Groups(['place:read', 'place:write'])]
+    #[ApiFilter(SearchFilter::class, strategy: 'partial')]
     private ?string $name = null;
 
     #[ORM\Column]
@@ -58,6 +60,7 @@ class Place
      */
     #[ORM\ManyToMany(targetEntity: TagLabel::class, inversedBy: 'places')]
     #[Groups(['place:read', 'place:write'])]
+    #[ApiFilter(SearchFilter::class, strategy: 'exact', properties: ['tags.id'])]
     private Collection $tags;
 
     #[Assert\Url]
