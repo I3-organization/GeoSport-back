@@ -1,0 +1,12 @@
+Keep :
+Code review (impossible de push/merge sur develop sans passer par une PR validée par un pair)
+Echanges avec le client
+
+Improve : 
+Preparation demo (MEP 15 minutes avant demo de develop vers master, récupération en local de la branche master sur le PC de Nafaa)
+
+Start :
+
+
+Stop :
+

@@ -1,0 +1,12 @@
+Keep : 
+Code review
+
+Improve : 
+communication
+independance
+
+Start : 
+automatisation (sonarqube + run tests)
+
+Stop : 
+
