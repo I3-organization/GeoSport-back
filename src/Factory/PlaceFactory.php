@@ -35,6 +35,10 @@ final class PlaceFactory extends PersistentProxyObjectFactory
             'latitude' => self::faker()->randomFloat(),
             'longitude' => self::faker()->randomFloat(),
             'name' => self::faker()->streetName(),
+            'address' => self::faker()->address(),
+            'email' => self::faker()->email(),
+            'phone' => self::faker()->phoneNumber(),
+            'image' => "https://picsum.photos/800/600",
         ];
     }
 

@@ -168,14 +168,18 @@ class PlacesTest extends ApiTestCase
         static::createClient()->request('POST', '/api/places', [
             'headers' => ['Content-Type' => 'application/ld+json'],
             'json' => [
-                'latitude' => 48.85341,
-                'longitude' => 2.3488,
-                'name' => 'Decathlon'
+                'latitude' => 2.3522,
+                'longitude' => 48.8566,
+                'name' => "Test",
+                'address' => "48 rue du test",
+                'email' => 'test@gmail.com',
+                'phone' => '0123456789',
+                'image' => 'https://picsum.photos/800/600',
             ]]);
 
         $this->assertResponseStatusCodeSame(201);
 
-        $place = PlaceFactory::repository()->findOneBy(['name' => 'Decathlon']);
+        $place = PlaceFactory::repository()->findOneBy(['name' => 'Test']);
 
         $this->assertNotNull($place);
     }

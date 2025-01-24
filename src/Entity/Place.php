@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PlaceRepository::class)]
 #[ApiResource(
@@ -56,9 +57,27 @@ class Place
      * @var Collection<int, TagLabel>
      */
     #[ORM\ManyToMany(targetEntity: TagLabel::class, inversedBy: 'places')]
-    #[Groups(['place:read'])]
+    #[Groups(['place:read', 'place:write'])]
     private Collection $tags;
 
+    #[Assert\Url]
+    #[ORM\Column]
+    #[Groups(['place:read', 'place:write'])]
+    private ?string $image = null;
+
+
+    #[ORM\Column]
+    #[Groups(['place:read', 'place:write'])]
+    private ?string $address = null;
+
+    #[Assert\Email]
+    #[Groups(['place:read', 'place:write'])]
+    #[ORM\Column(length: 180, unique: false)]
+    private ?string $email = null;
+
+    #[ORM\Column]
+    #[Groups(['place:read', 'place:write'])]
+    private ?string $phone = null;
 
     public function getId(): ?int
     {
@@ -147,5 +166,45 @@ class Place
         }
 
         return $total / $this->ratings->count();
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): void
+    {
+        $this->image = $image;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): void
+    {
+        $this->address = $address;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): void
+    {
+        $this->email = $email;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): void
+    {
+        $this->phone = $phone;
     }
 }
