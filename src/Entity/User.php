@@ -19,14 +19,19 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[Put(security: "is_granted('ROLE_ADMIN')")]
+#[Delete(security: "is_granted('ROLE_ADMIN')")]
 #[ApiResource(
     operations: [
-        new GetCollection(),
+        new GetCollection(security: "is_granted('ROLE_ADMIN')"),
         new Post(validationContext: ['groups' => ['Default', 'user:create']], processor: UserPasswordHasher::class),
-        new Get(),
-        new Put(processor: UserPasswordHasher::class),
-        new Patch(processor: UserPasswordHasher::class),
-        new Delete(),
+        new Get(
+            security: "is_granted('ROLE_USER') and object == user",
+            securityMessage: "Only the owner can access this resource",
+        ),
+        new Put(security: "is_granted('ROLE_ADMIN') or object == user", processor: UserPasswordHasher::class),
+        new Patch(security: "is_granted('ROLE_ADMIN') or object == user", processor: UserPasswordHasher::class),
+        new Delete(security: "is_granted('ROLE_ADMIN') or objet == user"),
     ],
     normalizationContext: ['groups' => ['user:read']],
     denormalizationContext: ['groups' => ['user:create', 'user:update']],
